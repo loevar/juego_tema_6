@@ -1,0 +1,161 @@
+/* =========================
+   BASE — Variables, Reset, Tipografía, Animaciones
+   ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --color-bg:        #05050f;
+  --color-surface:   #1a1a2e;
+  --color-surface2:  #0f0f1e;
+  --color-surface3:  #0a0a16;
+  --color-border:    #000;
+  --color-text:      #f5e9d8;
+  --color-text-dim:  #e8e0d0;
+  --color-text-muted:#7a7a9a;
+  --color-accent:    #ff66cc;
+  --color-blue:      #66ccff;
+  --color-yellow:    #ffcc66;
+  --color-gold:      #ffd54f;
+  --color-green:     #2f8f4f;
+  --color-green2:    #44dd77;
+  --color-red:       #cc2222;
+  --color-btn-blue:  #1a44bb;
+  --color-btn-blue2: #2255dd;
+  --font-main: "Press Start 2P", monospace;
+  --shadow-box:   4px 4px #000;
+  --border-pixel: 4px solid #000;
+  --border-heavy: 6px solid #000;
+  --border-panel: 10px solid #000;
+  --glow-pink:    0 0 8px rgba(255,102,204,0.7), 0 0 20px rgba(255,102,204,0.3);
+  --glow-blue:    0 0 8px rgba(102,204,255,0.7), 0 0 20px rgba(102,204,255,0.3);
+  --glow-yellow:  0 0 8px rgba(255,204,102,0.6);
+  --glow-green:   0 0 8px rgba(68,221,119,0.6);
+  --glow-red:     0 0 8px rgba(255,80,80,0.7);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -10%, #280a3a 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, #0a1a40 0%, transparent 50%),
+    #05050f;
+  color: var(--color-text);
+  font-family: var(--font-main);
+  image-rendering: pixelated;
+  letter-spacing: 1px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── CRT: scanlines + viñeta ── */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.12) 2px,
+    rgba(0,0,0,0.12) 4px
+  );
+}
+
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 55%,
+    rgba(0,0,0,0.75) 100%
+  );
+}
+
+/* ── Utilidades ── */
+.hidden { display: none !important; }
+
+strong {
+  color: var(--color-yellow);
+  text-shadow: var(--glow-yellow);
+}
+
+/* ── Animaciones globales ── */
+@keyframes flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97%            { opacity: 0.82; }
+  98%            { opacity: 0.96; }
+  99%            { opacity: 0.88; }
+}
+
+@keyframes pulse-glow-pink {
+  0%, 100% { text-shadow: 3px 3px #000, var(--glow-pink); }
+  50%       { text-shadow: 3px 3px #000, 0 0 24px rgba(255,102,204,1), 0 0 50px rgba(255,102,204,0.4); }
+}
+
+@keyframes pulse-glow-blue {
+  0%, 100% { text-shadow: 3px 3px #000, var(--glow-blue); }
+  50%       { text-shadow: 3px 3px #000, 0 0 24px rgba(102,204,255,1), 0 0 50px rgba(102,204,255,0.4); }
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes march-border {
+  to { background-position: 20px 0, 0 20px, -20px 0, 0 -20px; }
+}
+
+@keyframes stamp-pop {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  55%  { transform: scale(1.25) rotate(3deg); opacity: 1; }
+  75%  { transform: scale(0.92) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes scanline-pass {
+  0%   { top: -10%; opacity: 0.6; }
+  100% { top: 110%; opacity: 0; }
+}
+
+@keyframes rgb-glitch {
+  0%, 90%, 100% {
+    text-shadow: 3px 3px #000, var(--glow-blue);
+    transform: none;
+  }
+  92% {
+    text-shadow: -3px 0 rgba(255,0,100,0.8), 3px 0 rgba(0,200,255,0.8), 3px 3px #000;
+    transform: translate(-1px, 0);
+  }
+  94% {
+    text-shadow: 3px 0 rgba(255,0,100,0.8), -3px 0 rgba(0,200,255,0.8), 3px 3px #000;
+    transform: translate(1px, 0);
+  }
+  96% {
+    text-shadow: 3px 3px #000, var(--glow-blue);
+    transform: none;
+  }
+}

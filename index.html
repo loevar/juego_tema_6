@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control Ambiental - Tema 6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/game.css" />
+</head>
+<body>
+
+  <!-- CRT scanlines -->
+  <div class="crt-overlay"></div>
+
+  <!-- PANTALLA: INICIO -->
+  <div id="startScreen" class="screen screen--start">
+    <div class="start-box">
+      <h1 class="start-title">CONTROL AMBIENTAL</h1>
+      <h2 class="start-subtitle">TEMA 6</h2>
+      <div class="start-buttons">
+        <button id="startGameBtn" class="btn btn--primary start-btn">INICIAR</button>
+        <button id="creditsBtn" class="btn start-btn">CRÉDITOS</button>
+      </div>
+      <p class="start-hint">Pulsa INICIAR para comenzar</p>
+    </div>
+  </div>
+
+  <!-- PANTALLA: NOMBRE -->
+  <div id="nameScreen" class="screen screen--name hidden">
+    <div class="start-box">
+      <h2 class="start-subtitle">Introduce tu nombre</h2>
+      <input id="playerNameInput" class="name-input" maxlength="20" placeholder="Tu nombre..." />
+      <button id="confirmNameBtn" class="btn btn--primary start-btn">Continuar</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA: CRÉDITOS -->
+  <div id="creditsScreen" class="screen screen--credits hidden">
+    <div class="credits-controls">
+      <button id="creditsCloseBtn" class="btn credits-close-btn">✕ SALIR</button>
+      <button id="creditsMusicBtn" class="btn credits-music-btn">♪ MÚSICA: OFF</button>
+    </div>
+    <div class="credits-vignette-top"></div>
+    <div class="credits-vignette-bot"></div>
+    <div class="credits-viewport">
+      <div class="credits-scroll" id="creditsScroll"></div>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="game-container">
+    <h1 class="game-title">CONTROL AMBIENTAL — TEMA 6</h1>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <span id="scoreLabel" class="top-bar__score"><span class="icon-star"></span>Puntos: 0</span>
+      <span id="progressLabel" class="top-bar__progress">Expediente 0 / 0</span>
+      <button id="pauseBtn" class="btn">Pausa</button>
+    </div>
+
+    <!-- MENÚ INTRO -->
+    <div id="mainMenu" class="main-menu">
+      <p class="intro-text">
+        Revisa los expedientes y decide si son <strong>APTOS</strong> o <strong>NO APTOS</strong>.
+      </p>
+    </div>
+
+    <!-- PANEL DE JUEGO -->
+    <div id="gameUI" class="main-panel hidden">
+
+      <!-- Expediente -->
+      <div class="expediente-panel" id="expedientePanel">
+        <div class="icon-folder"></div>
+        <div class="panel-title">EXPEDIENTE</div>
+
+        <div class="expediente-content">
+          <div class="expediente-meta">
+            <strong>Nombre:</strong> <span id="expNombre">-</span><br />
+            <strong>ID:</strong> <span id="expId">-</span>
+          </div>
+          <div id="expDescripcion">Descripción del expediente...</div>
+          <div class="expediente-areas">
+            <strong>Áreas clave:</strong>
+            <ul id="expAreas"></ul>
+          </div>
+        </div>
+
+        <!-- Mensajero -->
+        <div class="messenger hidden" id="messenger">
+          <div class="msg-bubble hidden" id="msgBubble">¡NUEVO!</div>
+          <div class="msg-hat-crown"></div>
+          <div class="msg-hat-brim"></div>
+          <div class="msg-head"></div>
+          <div class="msg-torso">
+            <div class="msg-badge"></div>
+          </div>
+          <div class="msg-arm msg-arm--l"></div>
+          <div class="msg-arm msg-arm--r"></div>
+          <div class="msg-leg msg-leg--l"></div>
+          <div class="msg-leg msg-leg--r"></div>
+          <div class="msg-doc"></div>
+        </div>
+
+        <!-- Palancas tipo tragaperras -->
+        <div class="decision-panel">
+          <div class="lever-machine lever--apto" id="leverApto" role="button" tabindex="0" aria-label="Apto">
+            <div class="lever-label">APTO</div>
+            <div class="lever-arm" id="leverArmApto">
+              <div class="lever-knob"></div>
+              <div class="lever-shaft"></div>
+            </div>
+            <div class="lever-base">
+              <div class="lever-slot"></div>
+              <div class="lever-screw lever-screw--tl"></div>
+              <div class="lever-screw lever-screw--tr"></div>
+            </div>
+            <div class="lever-light" id="lightApto"></div>
+          </div>
+
+          <div class="lever-machine lever--noapto" id="leverNoApto" role="button" tabindex="0" aria-label="No apto">
+            <div class="lever-label">NO APTO</div>
+            <div class="lever-arm" id="leverArmNoApto">
+              <div class="lever-knob"></div>
+              <div class="lever-shaft"></div>
+            </div>
+            <div class="lever-base">
+              <div class="lever-slot"></div>
+              <div class="lever-screw lever-screw--tl"></div>
+              <div class="lever-screw lever-screw--tr"></div>
+            </div>
+            <div class="lever-light" id="lightNoApto"></div>
+          </div>
+        </div>
+
+        <div class="status-bar" id="statusBar">Lee el expediente y toma una decisión.</div>
+        <div id="stamp" class="stamp hidden">APTO</div>
+      </div>
+
+      <!-- Panel de reglas -->
+      <div class="rules-panel">
+        <div class="panel-title">CRITERIOS TEMA 6</div>
+        <ul class="rules-list">
+          <li>EINF</li>
+          <li>ISO 14001 / EMAS</li>
+          <li>Gestión de Residuos</li>
+          <li>Ecoetiquetado</li>
+          <li>Certificación Forestal</li>
+          <li>DIA</li>
+          <li>Sectores industriales</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- PANTALLA: FINAL -->
+    <div id="finalScreen" class="screen screen--final">
+      <h2 id="finalTitle">Resultado</h2>
+      <p id="finalScoreText"></p>
+      <pre id="finalDetails" class="final-details"></pre>
+      <button id="restartBtn" class="btn btn--primary">Jugar de nuevo</button>
+    </div>
+
+  </div>
+
+  <!-- MODAL: DECISIÓN -->
+  <div id="decisionModalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <h2 id="decisionTitle">Resultado</h2>
+      <p id="decisionResultText"></p>
+      <p id="decisionExplanation"></p>
+      <p id="decisionScoreChange"></p>
+      <div class="modal-footer">
+        <button id="decisionContinueBtn" class="btn btn--primary">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA: PAUSA -->
+  <div id="pauseOverlay" class="screen screen--pause">
+    <div class="pause-menu">
+      <div class="pause-icon"></div>
+      <h2>Pausa</h2>
+      <button id="resumeBtn" class="btn btn--primary">Reanudar</button>
+      <button id="restartFromPauseBtn" class="btn">Reiniciar</button>
+      <button id="exitBtn" class="btn btn--danger">Salir</button>
+    </div>
+  </div>
+
+  <!-- JS (orden importa) -->
+  <script src="js/data.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/credits.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+</html>
